@@ -1,0 +1,13 @@
+<h1>Add new contact</h1>
+
+<%= form_for @contact do |c| %>
+	<p>
+		<%= c.label :firstname %>
+		<%= c.text_field :firstname %>
+	</p>
+	<p>
+		<%= c.label :lastname %>
+		<%= c.text_field :lastname %>
+	</p>
+	<%= c.submit %>
+<% end %>

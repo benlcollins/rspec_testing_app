@@ -1,0 +1,14 @@
+<h1><%= link_to "Contacts Database for testing", contacts_path %></h1>
+
+<p><%= link_to "Add contact", new_contact_path %></p>
+
+Filter by first letter of surname:
+<% ("A".."Z").to_a.each do |letter| %>
+	<%= link_to "#{letter}", contacts_path(:letter => "#{letter}") %>
+<% end %>
+
+<ul>
+	<% @contacts.each do |contact| %>
+		<li><%= contact.name %></li>
+	<% end %>
+</ul>
