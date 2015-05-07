@@ -1,7 +1,7 @@
 # contact model test
 
 require 'spec_helper'
-require 'rails_helper'	# had to add this line myself
+require 'rails_helper'
 
 describe Contact do
 	it "has a valid factory" do

@@ -1,5 +1,7 @@
 <h1>Add new contact</h1>
 
+<p><%= link_to "Home", contacts_path %></p>
+
 <%= form_for @contact do |c| %>
 	<p>
 		<%= c.label :firstname %>
