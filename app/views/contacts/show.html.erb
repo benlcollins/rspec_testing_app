@@ -5,3 +5,7 @@
 <p>First name: <%= @contact.firstname %></p>
 
 <p>Last name: <%= @contact.lastname %></p>
+
+<%= form_for @contact, :method => :delete do |c| %>
+	<%= c.submit "Delete Contact" %>
+<% end %>
