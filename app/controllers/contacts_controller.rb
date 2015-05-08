@@ -30,8 +30,11 @@ class ContactsController < ApplicationController
 	end
 
 	def update
-		@contact.update(contact_params)
-		redirect_to contact_path(@contact)
+		if @contact.update(contact_params)
+			redirect_to contact_path(@contact)
+		else
+			render :edit
+		end
 	end
 
 	def destroy

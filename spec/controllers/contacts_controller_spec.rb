@@ -86,7 +86,7 @@ describe ContactsController do
 				}.to_not change(Contact,:count)
 			end
 
-			it "renders the new template again" do
+			it "re-renders the new template" do
 				post :create, contact: FactoryGirl.attributes_for(:invalid_contact)
 				expect(response).to render_template(:new)
 			end
@@ -113,7 +113,49 @@ describe ContactsController do
 	end
 
 	describe "PUT #update" do
+		before :each do
+			@peterjones = FactoryGirl.create(:contact, firstname: "Peter", lastname: "Jones")
+		end
 
+		context "valid attributes" do
+			it "locates the contact" do
+				put :update, id: @peterjones, contact: FactoryGirl.attributes_for(:contact)
+				expect(assigns(:contact)).to eq(@peterjones)
+			end
+
+			it "updates the contact correctly" do
+				put :update, id: @peterjones, 
+					contact: FactoryGirl.attributes_for(:contact, firstname: "Pedro", lastname: "Jones")
+				@peterjones.reload
+				expect(@peterjones.firstname).to eq("Pedro")
+				expect(@peterjones.lastname).to eq("Jones")
+			end
+
+			it "redirects to the updated contact page" do
+				put :update, id: @peterjones, contact: FactoryGirl.attributes_for(:contact)
+				expect(response).to redirect_to(contact_path)
+			end
+		end
+
+		context "invalid attributes" do
+			it "locates the contact" do
+				put :update, id: @peterjones, contact: FactoryGirl.attributes_for(:invalid_contact)
+				expect(assigns(:contact)).to eq(@peterjones)
+			end
+
+			it "does not update the contact" do
+				put :update, id: @peterjones, 
+					contact: FactoryGirl.attributes_for(:contact, firstname: "Pedro", lastname: nil)
+				@peterjones.reload
+				expect(@peterjones.firstname).not_to eq("Pedro")
+				expect(@peterjones.lastname).to eq("Jones")
+			end
+
+			it "re-renders the edit page" do
+				put :update, id: @peterjones, contact: FactoryGirl.attributes_for(:invalid_contact)
+				expect(response).to render_template(:edit)
+			end
+		end
 	end
 
 	describe "DELETE #destroy" do
