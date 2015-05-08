@@ -1,7 +1,8 @@
 class ContactsController < ApplicationController
 
+	before_action :load_contact, except: [:index, :new, :create]
+
 	def index
-		# @contacts = Contact.all
 		if params
 			@contacts = Contact.by_letter(params[:letter])
 		else
@@ -10,7 +11,6 @@ class ContactsController < ApplicationController
 	end
 
 	def show
-		@contact = Contact.find(params[:id])
 	end
 
 	def new
@@ -26,8 +26,15 @@ class ContactsController < ApplicationController
 		end
 	end
 
+	def edit
+	end
+
+	def update
+		@contact.update(contact_params)
+		redirect_to contact_path(@contact)
+	end
+
 	def destroy
-		@contact = Contact.find(params[:id])
 		@contact.delete
 		redirect_to contacts_path
 	end
@@ -36,5 +43,9 @@ class ContactsController < ApplicationController
 
 	def contact_params
 		params.require(:contact).permit(:firstname, :lastname)
+	end
+
+	def load_contact
+		@contact = Contact.find(params[:id])
 	end
 end

@@ -68,10 +68,12 @@ describe ContactsController do
 	describe "POST #create" do
 		context "valid attributes" do
 			it "saves the new contact" do
-				expect{ post :create, contact: FactoryGirl.attributes_for(:contact) }.to change(Contact, :count).by(1)
+				expect{ 
+					post :create, contact: FactoryGirl.attributes_for(:contact) 
+				}.to change(Contact, :count).by(1)
 			end
 
-			it "redirects to the index template" do
+			it "redirects to the the new contact page" do
 				post :create, contact: FactoryGirl.attributes_for(:contact)
 				expect(response).to redirect_to(Contact.last)
 			end
@@ -91,8 +93,40 @@ describe ContactsController do
 		end
 	end
 
+	describe "GET #edit" do
+		before :each do 
+			get :edit, id: @contact
+		end
+
+		it "assigns the chosen contact to @contact" do 
+			expect(assigns(:contact)).to eq(@contact)
+		end
+
+		it "responds successfully with an HTTP status code 200" do
+			expect(response).to be_success
+			expect(response).to have_http_status(200)
+		end
+
+		it "renders the show template" do
+			expect(response).to render_template(:edit)
+		end
+	end
+
+	describe "PUT #update" do
+
+	end
+
 	describe "DELETE #destroy" do
-	
+		it "deletes the contact from the database" do
+			expect{ 
+				delete :destroy, id: @contact
+			}.to change(Contact, :count).by(-1)
+		end
+
+		it "redirects to the index page" do
+			delete :destroy, id: @contact
+			expect(response).to redirect_to(contacts_path)
+		end
 	end
 
 

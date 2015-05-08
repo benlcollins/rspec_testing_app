@@ -9,3 +9,5 @@
 <%= form_for @contact, :method => :delete do |c| %>
 	<%= c.submit "Delete Contact" %>
 <% end %>
+
+<p><%= link_to "Edit contact", edit_contact_path(@contact) %></p>
